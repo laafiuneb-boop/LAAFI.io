@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LAAFI – Liga Acadêmica de Análise Financeira e Investimentos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a1628;
+      --navy-mid: #112240;
+      --navy-light: #1d3461;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-pale: #f5e9c4;
+      --cream: #faf7f0;
+      --white: #ffffff;
+      --gray: #8892a4;
+      --gray-light: #d1d9e6;
+      --text: #2d3748;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10,22,40,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900; font-size: 1.5rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--white); font-weight: 400; font-size: 0.75rem; display: block; letter-spacing: 0.25em; margin-top: -4px; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--gray-light); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--navy);
+      border: none; padding: 0.5rem 1.2rem;
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: 0.8rem; letter-spacing: 0.05em; cursor: pointer;
+      text-transform: uppercase; transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-light); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-glow {
+      position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -55%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold); font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      padding: 0.4rem 1rem; margin-bottom: 2rem;
+      position: relative; z-index: 1;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 900; color: var(--white);
+      line-height: 1.0; letter-spacing: -0.02em;
+      position: relative; z-index: 1;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero-title .accent { color: var(--gold); }
+    .hero-sub {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      color: var(--gray); max-width: 560px; margin: 1.5rem auto 0;
+      font-weight: 400; line-height: 1.7;
+      position: relative; z-index: 1;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; justify-content: center;
+      position: relative; z-index: 1;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--navy);
+      padding: 0.9rem 2rem; font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border: none; cursor: pointer; text-decoration: none;
+      display: inline-block; transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      padding: 0.9rem 2rem; font-weight: 600; font-size: 0.85rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.3); cursor: pointer;
+      text-decoration: none; display: inline-block; transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      color: var(--gray); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll::after {
+      content: ''; width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .hero-stats {
+      display: flex; gap: 4rem; margin-top: 4rem; z-index: 1;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem; font-weight: 900; color: var(--gold);
+    }
+    .stat-label { font-size: 0.72rem; color: var(--gray); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.2rem; }
+
+    /* ── SECTIONS GENERIC ── */
+    section { padding: 6rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900; color: var(--navy); line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .section-desc {
+      color: var(--gray); font-size: 1rem; line-height: 1.8; max-width: 640px;
+    }
+    .divider {
+      width: 48px; height: 3px;
+      background: linear-gradient(to right, var(--gold), var(--gold-light));
+      margin: 1.5rem 0;
+    }
+
+    /* ── ABOUT ── */
+    #sobre { background: var(--white); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+      margin-top: 3rem;
+    }
+    .about-text p { color: var(--text); line-height: 1.9; margin-bottom: 1rem; font-size: 0.97rem; }
+    .doc-links { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .doc-link {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--gray-light);
+      text-decoration: none; color: var(--navy);
+      transition: all 0.2s; font-size: 0.9rem; font-weight: 500;
+    }
+    .doc-link:hover { border-color: var(--gold); background: var(--gold-pale); }
+    .doc-icon {
+      width: 36px; height: 36px; background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 1rem; flex-shrink: 0;
+    }
+    .doc-link:hover .doc-icon { background: var(--gold); color: var(--navy); }
+    .doc-meta { font-size: 0.72rem; color: var(--gray); margin-top: 0.15rem; }
+
+    /* ── EDITAIS ── */
+    #editais { background: var(--navy); }
+    #editais .section-title { color: var(--white); }
+    #editais .section-desc { color: var(--gray); }
+    .editais-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .edital-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 1.75rem; transition: all 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .edital-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: var(--gold);
+    }
+    .edital-card:hover { border-color: rgba(201,168,76,0.5); transform: translateY(-3px); }
+    .edital-status {
+      display: inline-block; font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 0.25rem 0.6rem;
+      margin-bottom: 1rem; font-weight: 600;
+    }
+    .status-open { background: rgba(72,199,142,0.15); color: #48c78e; }
+    .status-closed { background: rgba(255,100,100,0.15); color: #ff6464; }
+    .status-upcoming { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .edital-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--white); margin-bottom: 0.5rem; font-weight: 700; }
+    .edital-date { font-size: 0.78rem; color: var(--gray); font-family: 'DM Mono', monospace; }
+    .edital-desc { color: var(--gray-light); font-size: 0.87rem; line-height: 1.7; margin-top: 0.75rem; }
+    .edital-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: var(--gold); font-size: 0.8rem; font-weight: 600;
+      text-decoration: none; margin-top: 1.25rem; letter-spacing: 0.05em;
+      transition: gap 0.2s;
+    }
+    .edital-link:hover { gap: 0.7rem; }
+
+    /* ── PROJETOS ── */
+    #projetos { background: var(--cream); }
+    .projetos-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem; margin-top: 3rem;
+    }
+    .projeto-card {
+      background: var(--white);
+      border-bottom: 3px solid var(--gold);
+      padding: 2rem; transition: all 0.25s;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+    }
+    .projeto-card:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.1); transform: translateY(-4px); }
+    .projeto-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem; font-weight: 900; color: var(--gold-pale);
+      line-height: 1; margin-bottom: 1rem;
+    }
+    .projeto-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem; }
+    .projeto-desc { color: var(--gray); font-size: 0.9rem; line-height: 1.75; }
+    .projeto-tag {
+      display: inline-block; margin-top: 1rem;
+      background: var(--navy); color: var(--gold);
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 0.3rem 0.7rem; font-weight: 600;
+    }
+
+    /* ── ARTIGOS ── */
+    #artigos { background: var(--white); }
+    .artigos-list { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
+    .artigo-item {
+      display: grid; grid-template-columns: auto 1fr auto;
+      gap: 2rem; align-items: center;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--gray-light);
+      text-decoration: none; color: inherit;
+      transition: all 0.2s;
+    }
+    .artigo-item:first-child { border-top: 1px solid var(--gray-light); }
+    .artigo-item:hover { background: var(--cream); padding-left: 1rem; padding-right: 1rem; margin: 0 -1rem; }
+    .artigo-num { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--gold); font-weight: 500; }
+    .artigo-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+    .artigo-meta { font-size: 0.8rem; color: var(--gray); }
+    .artigo-arrow { color: var(--gold); font-size: 1.2rem; transition: transform 0.2s; }
+    .artigo-item:hover .artigo-arrow { transform: translateX(4px); }
+
+    /* ── GALERIA ── */
+    #galeria { background: var(--navy-mid); }
+    #galeria .section-title { color: var(--white); }
+    #galeria .section-desc { color: var(--gray); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 220px);
+      gap: 0.75rem; margin-top: 3rem;
+    }
+    .gallery-item {
+      background: var(--navy-light);
+      overflow: hidden; position: relative; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .gallery-item:hover { opacity: 0.85; }
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: rgba(201,168,76,0.3); font-size: 2rem; gap: 0.5rem;
+    }
+    .gallery-placeholder span { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(201,168,76,0.2); }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,22,40,0.7);
+      display: flex; align-items: flex-end; padding: 1rem;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-caption { color: var(--white); font-size: 0.8rem; font-weight: 500; }
+    .gallery-note {
+      text-align: center; color: var(--gray); font-size: 0.8rem;
+      margin-top: 1rem; font-style: italic;
+    }
+
+    /* ── DIRETORIA ── */
+    #diretoria { background: var(--cream); }
+    .diretoria-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 2rem; margin-top: 3rem;
+    }
+    .membro-card { text-align: center; }
+    .membro-photo {
+      width: 120px; height: 120px; border-radius: 50%;
+      margin: 0 auto 1rem;
+      background: var(--navy-light);
+      border: 3px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; color: rgba(201,168,76,0.4);
+      position: relative; overflow: hidden;
+    }
+    .membro-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 50%;
+    }
+    .membro-cargo {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600; font-family: 'DM Mono', monospace;
+      margin-bottom: 0.35rem;
+    }
+    .membro-nome { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--navy); }
+
+    /* ── CONTATO ── */
+    #contato { background: var(--navy); }
+    #contato .section-title { color: var(--white); }
+    #contato .section-desc { color: var(--gray); }
+    .contato-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      margin-top: 3rem; align-items: start;
+    }
+    .contato-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contato-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .contato-icon {
+      width: 40px; height: 40px; background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 1rem; flex-shrink: 0;
+    }
+    .contato-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.2rem; }
+    .contato-value { color: var(--white); font-size: 0.95rem; }
+    .social-links { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
+    .social-btn {
+      width: 44px; height: 44px;
+      border: 1px solid rgba(201,168,76,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 1.1rem; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .social-btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .contato-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+    .form-input, .form-textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white); padding: 0.85rem 1rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border 0.2s;
+      width: 100%;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.25); }
+    .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-btn {
+      background: var(--gold); color: var(--navy);
+      border: none; padding: 1rem 2rem;
+      font-family: 'DM Sans', sans-serif; font-weight: 700;
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s; align-self: flex-start;
+    }
+    .form-btn:hover { background: var(--gold-light); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #060d1a;
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 900; color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+    .footer-text { color: var(--gray); font-size: 0.8rem; margin-top: 0.5rem; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .about-grid, .contato-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gallery-item:nth-child(1) { grid-column: span 2; height: 220px; }
+      .gallery-item { height: 150px; }
+      .hero-stats { gap: 2rem; flex-wrap: wrap; justify-content: center; }
+      .artigo-item { grid-template-columns: auto 1fr; }
+      .artigo-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-logo">LAAFI<span>Liga Acadêmica</span></div>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#editais">Editais</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#artigos">Artigos</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#diretoria">Diretoria</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Fale Conosco</button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-badge">Liga Acadêmica · Análise Financeira e Investimentos</div>
+    <h1 class="hero-title"><span class="accent">LAAFI</span></h1>
+    <p class="hero-sub">Liga Acadêmica de Análise Financeira e Investimentos — formando analistas críticos e investidores conscientes através de pesquisa, debate e prática aplicada.</p>
+    <div class="hero-actions">
+      <a href="#editais" class="btn-primary">Ver Editais</a>
+      <a href="#sobre" class="btn-outline">Conheça a Liga</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Anos de Atuação</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">40+</div>
+        <div class="stat-label">Membros Ativos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">15+</div>
+        <div class="stat-label">Projetos Realizados</div>
+      </div>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="section-inner">
+      <div class="section-tag">// Sobre nós</div>
+      <h2 class="section-title">Quem somos</h2>
+      <div class="divider"></div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>A <strong>LAAFI – Liga Acadêmica de Análise Financeira e Investimentos</strong> é uma entidade acadêmica fundada por estudantes apaixonados por mercado financeiro, gestão de ativos e análise econômica.</p>
+          <p>Nosso objetivo é proporcionar aos membros uma formação complementar sólida, conectando teoria acadêmica à prática do mercado por meio de estudos de caso, palestras, competições e projetos de pesquisa.</p>
+          <p>Acreditamos que o conhecimento financeiro é uma ferramenta de transformação. Aqui, desenvolvemos habilidades analíticas, pensamento crítico e visão estratégica para os desafios do mercado.</p>
+        </div>
+        <div>
+          <p class="section-desc" style="margin-bottom:1.5rem;">Acesse nossa documentação oficial:</p>
+          <div class="doc-links">
+            <a href="#" class="doc-link">
+              <div class="doc-icon">📋</div>
+              <div>
+                <div>Estatuto da Liga</div>
+                <div class="doc-meta">Documento oficial · PDF</div>
+              </div>
+            </a>
+            <a href="#" class="doc-link">
+              <div class="doc-icon">📝</div>
+              <div>
+                <div>Atas de Reunião</div>
+                <div class="doc-meta">Registros das assembleias · PDF</div>
+              </div>
+            </a>
+            <a href="#" class="doc-link">
+              <div class="doc-icon">🚀</div>
+              <div>
+                <div>Projeto de Criação</div>
+                <div class="doc-meta">Proposta fundacional · PDF</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDITAIS -->
+  <section id="editais">
+    <div class="section-inner">
+      <div class="section-tag" style="color:var(--gold-light)">//  Editais & Processos</div>
+      <h2 class="section-title">Editais</h2>
+      <div class="divider"></div>
+      <p class="section-desc">Acompanhe nossos processos seletivos, chamadas de artigos e outras publicações oficiais.</p>
+      <div class="editais-grid">
+        <div class="edital-card">
+          <span class="edital-status status-open">Aberto</span>
+          <div class="edital-title">Processo Seletivo 2025.1</div>
+          <div class="edital-date">Inscrições: 01/03 – 20/03/2025</div>
+          <div class="edital-desc">Vagas abertas para novos membros da LAFI. Buscamos estudantes com interesse em mercado financeiro, análise de investimentos e macroeconomia.</div>
+          <a href="#" class="edital-link">Acessar edital →</a>
+        </div>
+        <div class="edital-card">
+          <span class="edital-status status-upcoming">Em breve</span>
+          <div class="edital-title">Chamada de Artigos – Semestre I</div>
+          <div class="edital-date">Abertura: 15/04/2025</div>
+          <div class="edital-desc">Submissão de artigos científicos nas áreas de finanças corporativas, valuation, mercado de capitais e economia comportamental.</div>
+          <a href="#" class="edital-link">Saiba mais →</a>
+        </div>
+        <div class="edital-card">
+          <span class="edital-status status-closed">Encerrado</span>
+          <div class="edital-title">Processo Seletivo 2024.2</div>
+          <div class="edital-date">Encerrado em: 10/09/2024</div>
+          <div class="edital-desc">Processo seletivo para o segundo semestre de 2024. Resultado disponível na aba de arquivos.</div>
+          <a href="#" class="edital-link">Ver resultado →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETOS -->
+  <section id="projetos">
+    <div class="section-inner">
+      <div class="section-tag">// Iniciativas</div>
+      <h2 class="section-title">Projetos</h2>
+      <div class="divider"></div>
+      <p class="section-desc">Desenvolvemos projetos aplicados que unem pesquisa, análise e impacto real no ambiente acadêmico e profissional.</p>
+      <div class="projetos-grid">
+        <div class="projeto-card">
+          <div class="projeto-num">01</div>
+          <div class="projeto-title">Carteira Simulada LAAFI</div>
+          <div class="projeto-desc">Gestão de portfólio simulado com aportes mensais e análise fundamentalista, desenvolvendo habilidades de alocação de ativos.</div>
+          <span class="projeto-tag">Ativo</span>
+        </div>
+        <div class="projeto-card">
+          <div class="projeto-num">02</div>
+          <div class="projeto-title">Valuation na Prática</div>
+          <div class="projeto-desc">Ciclo de estudos de caso com valuation de empresas listadas na B3, utilizando metodologias DCF, EV/EBITDA e comparáveis.</div>
+          <span class="projeto-tag">Em andamento</span>
+        </div>
+        <div class="projeto-card">
+          <div class="projeto-num">03</div>
+          <div class="projeto-title">Observatório Macroeconômico</div>
+          <div class="projeto-desc">Publicação quinzenal de relatórios macroeconômicos analisando indicadores nacionais e internacionais relevantes.</div>
+          <span class="projeto-tag">Ativo</span>
+        </div>
+        <div class="projeto-card">
+          <div class="projeto-num">04</div>
+          <div class="projeto-title">LAAFI Finance Week</div>
+          <div class="projeto-desc">Semana de eventos com palestras, painéis e workshops com profissionais do mercado financeiro e acadêmicos renomados.</div>
+          <span class="projeto-tag">Anual</span>
+        </div>
+        <div class="projeto-card">
+          <div class="projeto-num">05</div>
+          <div class="projeto-title">Pesquisa em Finanças</div>
+          <div class="projeto-desc">Grupos de pesquisa orientados por professores, com publicação de artigos em periódicos acadêmicos e eventos científicos.</div>
+          <span class="projeto-tag">Pesquisa</span>
+        </div>
+        <div class="projeto-card">
+          <div class="projeto-num">06</div>
+          <div class="projeto-title">Finança Comportamental</div>
+          <div class="projeto-desc">Estudo dos vieses cognitivos nos processos decisórios de investimento, com aplicação de surveys e análise de dados.</div>
+          <span class="projeto-tag">Novo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTIGOS -->
+  <section id="artigos">
+    <div class="section-inner">
+      <div class="section-tag">// Produção Acadêmica</div>
+      <h2 class="section-title">Artigos Publicados</h2>
+      <div class="divider"></div>
+      <p class="section-desc">Confira as produções científicas dos membros da LAAFI publicadas em periódicos e eventos acadêmicos.</p>
+      <div class="artigos-list">
+        <a href="#" class="artigo-item">
+          <div class="artigo-num">01</div>
+          <div>
+            <div class="artigo-title">Análise de Eficiência de Mercado na B3: Um Estudo sobre Anomalias de Retorno</div>
+            <div class="artigo-meta">Autores: Ana Lima, Carlos Souza · 2024 · Revista de Finanças Aplicadas</div>
+          </div>
+          <div class="artigo-arrow">→</div>
+        </a>
+        <a href="#" class="artigo-item">
+          <div class="artigo-num">02</div>
+          <div>
+            <div class="artigo-title">Finanças Comportamentais e o Efeito de Ancoragem em Decisões de Investimento</div>
+            <div class="artigo-meta">Autores: Pedro Alves · 2024 · Congresso ANEFAC</div>
+          </div>
+          <div class="artigo-arrow">→</div>
+        </a>
+        <a href="#" class="artigo-item">
+          <div class="artigo-num">03</div>
+          <div>
+            <div class="artigo-title">Valuation de Startups Fintechs: Metodologias e Desafios de Precificação</div>
+            <div class="artigo-meta">Autores: Julia Martins, Rafael Costa · 2023 · Simpósio de Administração</div>
+          </div>
+          <div class="artigo-arrow">→</div>
+        </a>
+        <a href="#" class="artigo-item">
+          <div class="artigo-num">04</div>
+          <div>
+            <div class="artigo-title">ESG como Fator de Retorno: Evidências no Mercado Brasileiro de Ações</div>
+            <div class="artigo-meta">Autores: Equipe LAFI · 2023 · Cadernos de Finanças Corporativas</div>
+          </div>
+          <div class="artigo-arrow">→</div>
+        </a>
+        <a href="#" class="artigo-item">
+          <div class="artigo-num">05</div>
+          <div>
+            <div class="artigo-title">Criptomoedas como Hedge Inflacionário: Uma Análise Comparada 2020–2023</div>
+            <div class="artigo-meta">Autores: Lucas Ferreira · 2023 · Encontro de Economia Financeira</div>
+          </div>
+          <div class="artigo-arrow">→</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria">
+    <div class="section-inner">
+      <div class="section-tag" style="color:var(--gold-light)">// Memórias</div>
+      <h2 class="section-title">Galeria de Fotos</h2>
+      <div class="divider"></div>
+      <p class="section-desc">Momentos dos nossos eventos, palestras, workshops e encontros.</p>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <div class="gallery-placeholder">🎤<span>Foto em Destaque</span></div>
+          <div class="gallery-overlay"><div class="gallery-caption">LAFI Finance Week 2024</div></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">📊<span>Evento</span></div>
+          <div class="gallery-overlay"><div class="gallery-caption">Workshop de Valuation</div></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">🤝<span>Evento</span></div>
+          <div class="gallery-overlay"><div class="gallery-caption">Visita ao Mercado</div></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">📚<span>Reunião</span></div>
+          <div class="gallery-overlay"><div class="gallery-caption">Reunião de Pesquisa</div></div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">🏆<span>Premiação</span></div>
+          <div class="gallery-overlay"><div class="gallery-caption">Premiação Anual</div></div>
+        </div>
+      </div>
+      <p class="gallery-note">Substitua os marcadores por imagens reais da liga.</p>
+    </div>
+  </section>
+
+  <!-- DIRETORIA -->
+  <section id="diretoria">
+    <div class="section-inner">
+      <div class="section-tag">// Gestão 2026</div>
+      <h2 class="section-title">Nossa Diretoria</h2>
+      <div class="divider"></div>
+      <p class="section-desc">Conheça os membros que lideram a LAAFI neste ciclo de gestão.</p>
+      <div class="diretoria-grid">
+        <div class="membro-card">
+          <div class="membro-photo">👤</div>
+          <div class="membro-cargo">Presidente</div>
+          <div class="membro-nome">Nome do Presidente</div>
+        </div>
+        <div class="membro-card">
+          <div class="membro-photo">👤</div>
+          <div class="membro-cargo">Vice-Presidente</div>
+          <div class="membro-nome">Nome do Vice</div>
+        </div>
+        <div class="membro-card">
+          <div class="membro-photo">👤</div>
+          <div class="membro-cargo">Dir. de Pesquisa</div>
+          <div class="membro-nome">Nome do Diretor</div>
+        </div>
+        <div class="membro-card">
+          <div class="membro-photo">👤</div>
+          <div class="membro-cargo">Dir. de Eventos</div>
+          <div class="membro-nome">Nome do Diretor</div>
+        </div>
+        <div class="membro-card">
+          <div class="membro-photo">👤</div>
+          <div class="membro-cargo">Dir. de Marketing</div>
+          <div class="membro-nome">Nome do Diretor</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="section-inner">
+      <div class="section-tag" style="color:var(--gold-light)">// Fale Conosco</div>
+      <h2 class="section-title">Contato</h2>
+      <div class="divider"></div>
+      <p class="section-desc">Entre em contato ou nos siga nas redes sociais para acompanhar nossas novidades.</p>
+      <div class="contato-grid">
+        <div class="contato-info">
+          <div class="contato-item">
+            <div class="contato-icon">📧</div>
+            <div>
+              <div class="contato-label">E-mail</div>
+              <div class="contato-value">laafi@universidade.edu.br</div>
+            </div>
+          </div>
+          <div class="contato-item">
+            <div class="contato-icon">📍</div>
+            <div>
+              <div class="contato-label">Localização</div>
+              <div class="contato-value">Faculdade de Ciêcias Contábeis<br>UNEB · Sala 00</div>
+            </div>
+          </div>
+          <div class="contato-item">
+            <div class="contato-icon">🕐</div>
+            <div>
+              <div class="contato-label">Reuniões</div>
+              <div class="contato-value">Quintas-feiras, 19h</div>
+            </div>
+          </div>
+          <div>
+            <div class="contato-label" style="margin-bottom:0.75rem">Redes Sociais</div>
+            <div class="social-links">
+              <a href="#" class="social-btn" title="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              </a>
+              <a href="#" class="social-btn" title="LinkedIn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M12 17v-4a2 2 0 014 0v4M12 10v7"/></svg>
+              </a>
+              <a href="#" class="social-btn" title="YouTube">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+              </a>
+              <a href="#" class="social-btn" title="WhatsApp">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="contato-form">
+            <div class="form-group">
+              <label class="form-label">Nome</label>
+              <input class="form-input" type="text" placeholder="Seu nome completo" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">E-mail</label>
+              <input class="form-input" type="email" placeholder="seu@email.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Assunto</label>
+              <input class="form-input" type="text" placeholder="Sobre o que deseja falar?" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mensagem</label>
+              <textarea class="form-textarea" placeholder="Escreva sua mensagem..."></textarea>
+            </div>
+            <button class="form-btn">Enviar Mensagem</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">LAAFI</div>
+    <p class="footer-text">Liga Acadêmica de Análise Financeira e Investimentos · © 2026 · Todos os direitos reservados</p>
+  </footer>
+
+</body>
+</html>
