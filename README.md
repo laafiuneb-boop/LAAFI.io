@@ -1,1 +1,1 @@
-# LAAFI.io
+# LAAFI
